@@ -3,18 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './app/layout/App';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter } from "react-router-dom";
 
 const createElmt = document.getElementById('root');
 
 let render = () => {
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </React.StrictMode>,
     createElmt
   );
 }
-if(module.hot){
+if (module.hot) {
   module.hot.accept("./app/layout/App", () => {
     setTimeout(render);
   })

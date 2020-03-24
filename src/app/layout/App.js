@@ -1,8 +1,12 @@
 import React from 'react';
-import Login from '../../features/login/Component/Login';
+import Login from '../../features/login/Login';
+
+
 function App() {
   return (
-    <Login />
+    <>
+      <Login />
+    </>
   );
 }
 

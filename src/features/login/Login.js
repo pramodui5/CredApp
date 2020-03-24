@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, TextField, Container, Input } from '@material-ui/core';
-import {dataLists} from '../../../data/authData';
+import { dataLists } from '../../data/authData';
 
 
 class Login extends Component {

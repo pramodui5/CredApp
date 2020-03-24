@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { Grid, TextField, Container, Input } from '@material-ui/core';
-import { dataLists } from '../../data/authData';
+import React, { Component } from 'react';
+import { Grid, TextField, Container, Input, Button } from '@material-ui/core';
+import dataLists from '../../data/authData';
+import { Link } from 'react-router-dom';
 
 
 class Login extends Component {
@@ -60,8 +61,10 @@ class Login extends Component {
         })
     }
 
+
     render() {
         const { isSuccess, userVal: { name }, isShow } = this.state;
+
         return (
             <Grid container justify="center" style={{ backgroundColor: '#cfe8fc', height: '100vh', flexDirection: 'column' }}>
                 <h1 direction="row" justify="center" > Credential Application</h1>
@@ -82,7 +85,8 @@ class Login extends Component {
                                 required
                                 onChange={this.handleUserPassword}
                             />
-                            <Input type="submit" variant="contained" color="primary" />
+                            {/* <Input type="submit" variant="contained" color="primary" /> */}
+                            <Button as={Link} to="/dashboard" type="submit">Login</Button >
                         </form> : <div>
                             <h2>Welcome {name}</h2>
                             <button onClick={this.handleLogout}>Logout</button>
@@ -92,6 +96,9 @@ class Login extends Component {
                 </Container>
 
             </Grid >
+
+
+
         )
     }
 }

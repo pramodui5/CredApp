@@ -1,14 +1,19 @@
-import React, { Component } from 'react'
-import Nav from './nav/Nav'
+import React, { Component } from "react";
+import Nav from "./nav/Nav";
 
 class Dashboard extends Component {
-    render() {
-        return (
-            <div>
-                <Nav />
-            </div>
-        )
-    }
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <div>
+        <Nav history={this.props.history} />
+      </div>
+    );
+  }
 }
 
-export default Dashboard
+export default Dashboard;

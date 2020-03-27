@@ -1,0 +1,109 @@
+{
+  "environment_detail": [
+    {
+      "user_Id": "MID234565",
+      "password": "password7",
+      "region": "HQAC",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234566",
+      "password": "password7",
+      "region": "HQAC",
+      "release": "Aug-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234567",
+      "password": "password7",
+      "region": "HQAC",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234568",
+      "password": "password7",
+      "region": "HQAC",
+      "release": "Aug-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234569",
+      "password": "password7",
+      "region": "SCAL",
+      "release": "Aug-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234570",
+      "password": "password7",
+      "region": "SCAL",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234571",
+      "password": "password7",
+      "region": "HQAC",
+      "release": "Aug-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234572",
+      "password": "password7",
+      "region": "HQAC",
+      "release": "Aug-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "MID234573",
+      "password": "password7",
+      "region": "HQAC",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "NW457895",
+      "password": "password7",
+      "region": "dev4",
+      "release": "Aug-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "NW457896",
+      "password": "password7",
+      "region": "dev4",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "NW457897",
+      "password": "password7",
+      "region": "dev3",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "NW457898",
+      "password": "password7",
+      "region": "SCAL",
+      "release": "Aug-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "NW457899",
+      "password": "password7",
+      "region": "SCAL",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    },
+    {
+      "user_Id": "NW457900",
+      "password": "password7",
+      "region": "dev4",
+      "release": "Feb-19",
+      "url": "https:/www.google.com"
+    }
+  ]
+}

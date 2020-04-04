@@ -5,7 +5,7 @@ import App from './app/layout/App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 
-const createElmt = document.getElementById('root');
+const createElement = document.getElementById('root');
 
 let render = () => {
   ReactDOM.render(
@@ -14,7 +14,7 @@ let render = () => {
         <App />
       </BrowserRouter>
     </React.StrictMode>,
-    createElmt
+    createElement
   );
 }
 if (module.hot) {

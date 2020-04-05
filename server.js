@@ -12,18 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// define a simple route
-app.get("/", (req, res) => {
-  res.json({
-    message:
-      "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes.",
-  });
-});
-
 // listen requests from cloud database
 mongoose
   .connect(
-    "mongodb+srv://creadentialapp:VfbiS9WpEqMuqyvl@cluster0-fx5dt.mongodb.net/credapp?retryWrites=true&w=majority",
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-yeq5v.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
@@ -38,3 +30,13 @@ mongoose
     console.log("Could not connect to the database. Exiting now...", err);
     process.exit();
   });
+
+// define a simple route
+app.get("/", (req, res) => {
+  res.json({
+    message:
+      "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes.",
+  });
+});
+
+require("./app/routes/note-routes.js")(app);

@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const User = require("../models/user-model.js");
 
 // Create and Save a new User
@@ -12,7 +13,7 @@ exports.create = (req, res) => {
   // Create a User
   const user = new User({
     username: req.body.username || "Untitled User",
-    password: req.body.password,
+    password: bcrypt.hashSync(req.body.password, 10),
   });
 
   // Save User in the database

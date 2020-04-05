@@ -3,6 +3,14 @@ const User = require("../models/user-model.js");
 
 // Create and Save a new User
 exports.create = (req, res) => {
+  const existingUser = User.findOne({
+    username: req.body.username,
+  });
+
+  if (existingUser) {
+    throw new Error("User exists already");
+  }
+
   // Validate request
   if (!req.body.username) {
     return res.status(400).send({
@@ -10,11 +18,16 @@ exports.create = (req, res) => {
     });
   }
 
+  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+
   // Create a User
   const user = new User({
     username: req.body.username || "Untitled User",
-    password: bcrypt.hashSync(req.body.password, 10),
+    password: hashedPassword,
   });
+  // const result = await user.save();
+
+  // return { ...result._doc, password: null, _id: result.id };
 
   // Save User in the database
   user

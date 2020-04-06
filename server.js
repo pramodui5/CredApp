@@ -15,16 +15,11 @@ app.use(bodyParser.json());
 // listen requests from cloud database
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-fx5dt.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-yeq5v.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
-    console.log("Successfully connected to the database");
-  })
-  .then(() => {
-    app.listen(5000, () => {
-      console.log("Server is listening on port 5000");
-    });
+    app.listen(5000);
   })
   .catch((err) => {
     console.log("Could not connect to the database. Exiting now...", err);

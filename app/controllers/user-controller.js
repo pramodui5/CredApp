@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user-model.js");
+const jwt = require("jsonwebtoken");
 
 // Create and Save a new User
 exports.create = (req, res) => {
@@ -131,4 +132,22 @@ exports.delete = (req, res) => {
         message: "Could not delete user with id " + req.params.userId,
       });
     });
+};
+
+exports.login = async (req, res) => {
+  //Login a registered user
+  try {
+    const { username, password } = req.body;
+    const user = await User.findByCredentials(username, password);
+    if (!user) {
+      return res
+        .status(401)
+        .send({ error: "Login failed! Check authentication credentials" });
+    }
+    const token = jwt.sign({ _id: user._id }, "somesupersecretkey");
+    res.send({ user, token });
+    return res.json("User successfully logged in...");
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };

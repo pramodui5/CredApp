@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const User = require("../models/user-model.js");
 
 // Create and Save a new User
@@ -9,10 +10,17 @@ exports.create = (req, res) => {
     });
   }
 
+  // Duplicate User
+  const existingUser = User.findOne({ username: req.body.username });
+  if (existingUser) {
+    return res.json("User already exist");
+  }
+
+  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   // Create a User
   const user = new User({
     username: req.body.username || "Untitled User",
-    password: req.body.password,
+    password: hashedPassword,
   });
 
   // Save User in the database

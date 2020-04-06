@@ -11,11 +11,10 @@ exports.create = (req, res) => {
   }
 
   // Duplicate User
-  User.findOne({ username: req.body.username }, (err, user) => {
-    if (user) {
-      return res.json("User already exist");
-    }
-  });
+  const existingUser = User.findOne({ username: req.body.username });
+  if (existingUser) {
+    return res.json("User already exist");
+  }
 
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   // Create a User

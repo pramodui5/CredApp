@@ -58,8 +58,8 @@ function Search() {
 
   const handleSubmit = event => {
     //event.preventDefault();
-    let userId = React.createRef();
-    console.log(userId.current.value);
+    // let userId = React.createRef();
+    // console.log(userId.current.value);
   };
 
   return (
@@ -69,7 +69,7 @@ function Search() {
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      <TextField id="standard-basic" label="Search User ID" ref={userId} />
+      <TextField id="standard-basic" label="Search User ID"/>
       <FormControl className={classes.formControl}>
         <InputLabel id="demo-controlled-open-select-label">Region</InputLabel>
         <Select

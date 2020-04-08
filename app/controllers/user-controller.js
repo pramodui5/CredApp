@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // Create and Save a new User
 exports.create = (req, res) => {
+  const { username, password } = req.body;
   // Validate request
   if (!req.body.username) {
     return res.status(400).send({
@@ -12,10 +13,10 @@ exports.create = (req, res) => {
   }
 
   // Duplicate User
-  const existingUser = User.findOne({ username: req.body.username });
-  if (existingUser) {
-    return res.json("User already exist");
-  }
+  // const existingUser = User.findOne({ username: req.body.username });
+  // if (existingUser) {
+  //   return res.json("User already exist");
+  // }
 
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   // Create a User
@@ -134,18 +135,23 @@ exports.delete = (req, res) => {
     });
 };
 
+//Login a registered user
 exports.login = async (req, res) => {
-  //Login a registered user
   try {
     const { username, password } = req.body;
-    const user = await User.findByCredentials(username, password);
+    const user = await User.findOne({ username: username });
     if (!user) {
-      return res
-        .status(401)
-        .send({ error: "Login failed! Check authentication credentials" });
+      throw new Error("User does not exist");
     }
-    const token = jwt.sign({ _id: user._id }, "somesupersecretkey");
-    res.send({ user, token });
+    const isEqual = await bcrypt.compare(password, user.password);
+    if (!isEqual) {
+      throw new Error("Password is incorrect");
+    }
+    const token = jwt.sign({ username }, "somesupersecretkey", {
+      algorithm: "HS256",
+      expiresIn: "1h",
+    });
+    res.send({ user, token: token });
     return res.json("User successfully logged in...");
   } catch (error) {
     res.status(400).send(error);

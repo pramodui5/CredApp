@@ -22,70 +22,98 @@ class Login extends Component {
       dBData: dataLists,
       isSuccess: false,
       userVal: {},
-      isShow: true
+      isShow: true,
     };
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     const { userVal, dBData } = this.state;
     event.preventDefault();
 
-    const dataValid = dBData.find(
+    /* const dataValid = dBData.find(
       ({ name, pass }) => name === userVal.name && pass === userVal.password
     );
 
     if (dataValid) {
       this.setState({
         isSuccess: true,
-        isShow: true
+        isShow: true,
       });
       this.props.history.push("/dashboard");
       sessionStorage.setItem("name", userVal.name);
     } else {
       this.setState({
-        isShow: false
+        isShow: false,
       });
-    }
+    } */
+
+    let responseData = fetch("http://localhost:5000/users/login", {
+      method: "POST",
+      body: JSON.stringify({
+        username: userVal.name,
+        password: userVal.password,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer <token>",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Object.keys(data).length === 0 && data.constructor === Object) {
+          this.setState({
+            isShow: false,
+          });
+        } else {
+          this.setState({
+            isSuccess: true,
+            isShow: true,
+          });
+          this.props.history.push("/dashboard");
+          sessionStorage.setItem("name", data.user.username);
+        }
+      });
   };
-  handleUserId = event => {
+  handleUserId = (event) => {
     this.setState({
       userVal: {
-        name: event.target.value
-      }
+        name: event.target.value,
+      },
     });
   };
-  handleUserPassword = event => {
+  handleUserPassword = (event) => {
     this.setState({
       userVal: {
         name: this.state.userVal.name,
-        password: event.target.value
-      }
+        password: event.target.value,
+      },
     });
   };
   handleLogout = () => {
     this.setState({
-      isSuccess: false
+      isSuccess: false,
     });
   };
 
-  useStyles = makeStyles(theme => ({
+  useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: theme.palette.secondary.main,
     },
     form: {
       width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacing(1),
     },
     submit: {
-      margin: theme.spacing(3, 0, 2)
-    }
+      margin: theme.spacing(3, 0, 2),
+    },
   }));
 
   render() {
@@ -99,18 +127,14 @@ class Login extends Component {
           component="main"
           maxWidth="xs"
           className={classes.marginTop}
-          style={{ marginTop: "10%" }}
+          style={{ marginTop: "10%", textAlign: "center" }}
         >
           <CssBaseline />
           <div className={classes.paper}>
             <Avatar className={classes.avatar} style={{ margin: "0 auto" }}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ margin: "0 auto" }}
-            >
+            <Typography component="h1" variant="h5">
               Sign in
             </Typography>
             <form
@@ -147,26 +171,21 @@ class Login extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                style={{ marginTop: "16px" }}
+                style={{ marginTop: "16px", marginBottom: "16px" }}
               >
                 Sign In
               </Button>
               {isShow ? "" : <h2>Invalid User name or Password</h2>}
               <Grid container>
-                <Grid item xs>
+                <Grid>
                   <Link href="#" variant="body2">
                     Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
             </form>
           </div>
-          <Box mt={8}>
+          <Box mt={12}>
             <Copyright />
           </Box>
         </Container>

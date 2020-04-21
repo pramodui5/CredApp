@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import { CssBaseline } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -11,85 +11,33 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import dataLists from "../../data/authData";
 import Copyright from "../copyright/Copyright";
+import { loginUser } from "./loginActions";
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dBData: dataLists,
-      isSuccess: false,
-      userVal: {},
-      isShow: true,
+      userName: "",
+      password: "",
+      isLogin: false,
     };
   }
 
+  handleOnChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   handleSubmit = (event) => {
-    const { userVal, dBData } = this.state;
     event.preventDefault();
 
-    /* const dataValid = dBData.find(
-      ({ name, pass }) => name === userVal.name && pass === userVal.password
-    );
+    this.setState({ userName: "", password: "" });
+    this.props.handleSubmit(this.state);
+    //console.log(this.state);
+    //this.props.history.push("/dashboard");
+  };
 
-    if (dataValid) {
-      this.setState({
-        isSuccess: true,
-        isShow: true,
-      });
-      this.props.history.push("/dashboard");
-      sessionStorage.setItem("name", userVal.name);
-    } else {
-      this.setState({
-        isShow: false,
-      });
-    } */
-
-    let responseData = fetch("http://localhost:5000/users/login", {
-      method: "POST",
-      body: JSON.stringify({
-        username: userVal.name,
-        password: userVal.password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: "Bearer <token>",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (Object.keys(data).length === 0 && data.constructor === Object) {
-          this.setState({
-            isShow: false,
-          });
-        } else {
-          this.setState({
-            isSuccess: true,
-            isShow: true,
-          });
-          this.props.history.push("/dashboard");
-          sessionStorage.setItem("name", data.user.username);
-        }
-      });
-  };
-  handleUserId = (event) => {
-    this.setState({
-      userVal: {
-        name: event.target.value,
-      },
-    });
-  };
-  handleUserPassword = (event) => {
-    this.setState({
-      userVal: {
-        name: this.state.userVal.name,
-        password: event.target.value,
-      },
-    });
-  };
   handleLogout = () => {
     this.setState({
       isSuccess: false,
@@ -118,6 +66,8 @@ class Login extends Component {
 
   render() {
     const { isShow } = this.state;
+    console.log("render=========", this.props);
+    //console.log("render=========", props);
 
     const classes = this.useStyles;
 
@@ -149,9 +99,9 @@ class Login extends Component {
                 fullWidth
                 id="user_id"
                 label="User ID"
-                name="user_id"
+                name="userName"
                 autoFocus
-                onChange={this.handleUserId}
+                onChange={this.handleOnChange}
               />
               <TextField
                 variant="outlined"
@@ -163,7 +113,7 @@ class Login extends Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={this.handleUserPassword}
+                onChange={this.handleOnChange}
               />
               <Button
                 type="submit"
@@ -175,7 +125,11 @@ class Login extends Component {
               >
                 Sign In
               </Button>
-              {isShow ? "" : <h2>Invalid User name or Password</h2>}
+              {!this.state.isLogin ? (
+                ""
+              ) : (
+                <h2>Invalid User name or Password</h2>
+              )}
               <Grid container>
                 <Grid>
                   <Link href="#" variant="body2">
@@ -194,4 +148,13 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  name: state.userName,
+  //isLogin: state.isLogin,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return { handleSubmit: (data) => dispatch(loginUser(data)) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -140,6 +140,7 @@ exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username: username });
+
     if (!user) {
       throw new Error("User does not exist");
     }
@@ -147,11 +148,21 @@ exports.login = async (req, res) => {
     if (!isEqual) {
       throw new Error("Password is incorrect");
     }
+
     const token = jwt.sign({ username }, "somesupersecretkey", {
       algorithm: "HS256",
       expiresIn: "1h",
     });
-    res.send({ user, token: token });
+
+    res.send({
+      user: {
+        _id: user._id,
+        username: user.username,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+      token: token,
+    });
     return res.json("User successfully logged in...");
   } catch (error) {
     res.status(400).send(error);

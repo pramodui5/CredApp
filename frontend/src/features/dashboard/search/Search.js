@@ -7,21 +7,21 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
-      width: "25ch"
-    }
+      width: "25ch",
+    },
   },
   button: {
     display: "block",
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120
-  }
+    minWidth: 120,
+  },
 }));
 
 function Search() {
@@ -32,7 +32,7 @@ function Search() {
   const [release, setRelease] = React.useState("");
   const [openRelease, setReleaseOpen] = React.useState(false);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setRegion(event.target.value);
   };
 
@@ -44,7 +44,7 @@ function Search() {
     setOpen(true);
   };
 
-  const handleReleaseChange = event => {
+  const handleReleaseChange = (event) => {
     setRelease(event.target.value);
   };
 
@@ -56,59 +56,55 @@ function Search() {
     setReleaseOpen(true);
   };
 
-  const handleSubmit = event => {
-    //event.preventDefault();
-    // let userId = React.createRef();
-    // console.log(userId.current.value);
-  };
+  // const handleSubmit = (event) => {};
 
   return (
     <form
       className={classes.root}
       noValidate
-      autoComplete="off"
-      onSubmit={handleSubmit}
+      autoComplete='off'
+      // onSubmit={handleSubmit}
     >
-      <TextField id="standard-basic" label="Search User ID"/>
+      <TextField id='standard-basic' label='Search User ID' />
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-controlled-open-select-label">Region</InputLabel>
+        <InputLabel id='demo-controlled-open-select-label'>Region</InputLabel>
         <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
+          labelId='demo-controlled-open-select-label'
+          id='demo-controlled-open-select'
           open={open}
           onClose={handleClose}
           onOpen={handleOpen}
           value={region}
           onChange={handleChange}
         >
-          <MenuItem value="">
+          <MenuItem value=''>
             <em>None</em>
           </MenuItem>
-          <MenuItem value="SCAL">SCAL</MenuItem>
-          <MenuItem value="HQAC">HQAC</MenuItem>
-          <MenuItem value="HINT1">HINT1</MenuItem>
+          <MenuItem value='SCAL'>SCAL</MenuItem>
+          <MenuItem value='HQAC'>HQAC</MenuItem>
+          <MenuItem value='HINT1'>HINT1</MenuItem>
         </Select>
       </FormControl>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-controlled-open-select-label">Release</InputLabel>
+        <InputLabel id='demo-controlled-open-select-label'>Release</InputLabel>
         <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
+          labelId='demo-controlled-open-select-label'
+          id='demo-controlled-open-select'
           open={openRelease}
           onClose={handleReleaseClose}
           onOpen={handleReleaseOpen}
           value={release}
           onChange={handleReleaseChange}
         >
-          <MenuItem value="">
+          <MenuItem value=''>
             <em>None</em>
           </MenuItem>
-          <MenuItem value="Feb2019">Feb2019</MenuItem>
-          <MenuItem value="Aug2019">Aug2019</MenuItem>
-          <MenuItem value="Feb2019">Feb2019</MenuItem>
+          <MenuItem value='Feb2019'>Feb2019</MenuItem>
+          <MenuItem value='Aug2019'>Aug2019</MenuItem>
+          <MenuItem value='Feb2019'>Feb2019</MenuItem>
         </Select>
       </FormControl>
-      <Button variant="outlined" color="primary" type="submit">
+      <Button variant='outlined' color='primary' type='submit'>
         Search
       </Button>
     </form>

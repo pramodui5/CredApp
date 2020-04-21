@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { loginUser } from "../login/loginActions";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import { CssBaseline } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -11,7 +13,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import dataLists from "../../data/authData";
 import Copyright from "../copyright/Copyright";
 
 class Login extends Component {
@@ -19,73 +20,37 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      dBData: dataLists,
-      isSuccess: false,
-      userVal: {},
-      isShow: true
+      userName: "",
+      password: "",
+      isShow: true,
     };
   }
-
-  handleSubmit = event => {
-    const { userVal, dBData } = this.state;
+  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  handleSubmit = (event) => {
     event.preventDefault();
-
-    const dataValid = dBData.find(
-      ({ name, pass }) => name === userVal.name && pass === userVal.password
-    );
-
-    if (dataValid) {
-      this.setState({
-        isSuccess: true,
-        isShow: true
-      });
-      this.props.history.push("/dashboard");
-      sessionStorage.setItem("name", userVal.name);
-    } else {
-      this.setState({
-        isShow: false
-      });
-    }
-  };
-  handleUserId = event => {
-    this.setState({
-      userVal: {
-        name: event.target.value
-      }
-    });
-  };
-  handleUserPassword = event => {
-    this.setState({
-      userVal: {
-        name: this.state.userVal.name,
-        password: event.target.value
-      }
-    });
-  };
-  handleLogout = () => {
-    this.setState({
-      isSuccess: false
-    });
+    this.setState({ userName: "", password: "" });
+    this.props.handleSubmit(this.state);
+    // this.props.history.push("/dashboard");
   };
 
-  useStyles = makeStyles(theme => ({
+  useStyles = makeStyles((theme) => ({
     paper: {
       marginTop: theme.spacing(8),
       display: "flex",
       flexDirection: "column",
-      alignItems: "center"
+      alignItems: "center",
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: theme.palette.secondary.main,
     },
     form: {
       width: "100%", // Fix IE 11 issue.
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacing(1),
     },
     submit: {
-      margin: theme.spacing(3, 0, 2)
-    }
+      margin: theme.spacing(3, 0, 2),
+    },
   }));
 
   render() {
@@ -96,8 +61,8 @@ class Login extends Component {
     return (
       <>
         <Container
-          component="main"
-          maxWidth="xs"
+          component='main'
+          maxWidth='xs'
           className={classes.marginTop}
           style={{ marginTop: "10%" }}
         >
@@ -107,8 +72,8 @@ class Login extends Component {
               <LockOutlinedIcon />
             </Avatar>
             <Typography
-              component="h1"
-              variant="h5"
+              component='h1'
+              variant='h5'
               style={{ margin: "0 auto" }}
             >
               Sign in
@@ -119,33 +84,33 @@ class Login extends Component {
               onSubmit={this.handleSubmit}
             >
               <TextField
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 required
                 fullWidth
-                id="user_id"
-                label="User ID"
-                name="user_id"
+                id='user_id'
+                label='User ID'
+                name='userName'
                 autoFocus
-                onChange={this.handleUserId}
+                onChange={this.handleChange}
               />
               <TextField
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={this.handleUserPassword}
+                name='password'
+                label='Password'
+                type='password'
+                id='password'
+                autoComplete='current-password'
+                onChange={this.handleChange}
               />
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 className={classes.submit}
                 style={{ marginTop: "16px" }}
               >
@@ -154,12 +119,12 @@ class Login extends Component {
               {isShow ? "" : <h2>Invalid User name or Password</h2>}
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link href='#' variant='body2'>
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href='#' variant='body2'>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
@@ -175,4 +140,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  name: state.userName,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleSubmit: (data) => dispatch(loginUser(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

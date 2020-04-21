@@ -151,8 +151,16 @@ exports.login = async (req, res) => {
       algorithm: "HS256",
       expiresIn: "1h",
     });
-    res.send({ user, token: token });
-    return res.json("User successfully logged in...");
+    res.send({
+      user: {
+        _id: user._id,
+        username: user.username,
+        createdAt: user.createdAt,
+        updatedAt: user.createdAt,
+      },
+      token: token,
+    });
+    // return res.json("User successfully logged in...");
   } catch (error) {
     res.status(400).send(error);
   }
